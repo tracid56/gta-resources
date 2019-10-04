@@ -39,13 +39,13 @@ Citizen.CreateThread(function()
             name = v.name .. '_store',
             coords = v.coords,
             show3D = true,
-            size = vector3(1.0, 1.0, 1.0),
+            size = vector3(2.0, 2.0, 1.0),
             msg = 'Press [E] to return the vehicle',
             action = function()
                 ReturnVehicle()
             end,
             shouldDraw = function()
-                return not vehicle == nil
+                return not not vehicle
             end
         }
         TriggerEvent('disc-base:registerMarker', marker)
@@ -59,14 +59,15 @@ function ShowVehicleMenu(config)
         table.insert(options, {
             label = v.name,
             action = function()
-                SpawnVehicle(v.model, v.coords, v.heading)
+                SpawnVehicle(v.model, config.coords, config.heading)
+                ESX.UI.Menu.CloseAll()
             end
         })
     end
 
     local menu = {
         name = 'spawn_vehicle',
-        title = 'Spawn Vehicle',
+        title = config.name,
         options = options
     }
 
@@ -76,8 +77,8 @@ end
 
 function SpawnVehicle(model, coords, heading)
     if ESX.Game.IsSpawnPointClear(coords, 3.0) then
-        ESX.Game.SpawnVehicle(model, coords, heading, function(vehicle)
-            vehicle = vehicle
+        ESX.Game.SpawnVehicle(model, coords, heading, function(cbVeh)
+            vehicle = cbVeh
             spawn = coords
             TaskWarpPedIntoVehicle(GetPlayerPed(-1), vehicle, -1)
         end)
@@ -94,6 +95,10 @@ end
 
 Citizen.CreateThread(function()
     while true do
+        if vehicle and not DoesEntityExist(vehicle) then
+            ReturnVehicle()
+        end
+
         if vehicle and spawn then
             local vehicleCoords = GetEntityCoords(vehicle)
             if GetDistanceBetweenCoords(vehicleCoords, spawn) > Config.DriveDistance then

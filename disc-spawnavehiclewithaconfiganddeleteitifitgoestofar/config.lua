@@ -1,14 +1,14 @@
 Config = {}
 
-Config.DriveDistance = 500
+Config.DriveDistance = 100
 
 Config.Spawners = {
     {
         name = 'Go Karts',
-        coords = vector3(0, 0, 0),
+        coords = vector3(913.09, -131.06, 76.57),
         heading = 0.0,
         vehicles = {
-            name = 'Go Kart', model = 'GoKart'
+            { name = 'Go Kart', model = 'reaper'}
         }
     }
 }
