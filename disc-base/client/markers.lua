@@ -18,6 +18,12 @@ local HasAlreadyEnteredMarker
 
 RegisterNetEvent('disc-base:registerMarker')
 AddEventHandler('disc-base:registerMarker', function(marker)
+
+    if marker[marker.name] then
+        TriggerEvent('disc-base:updateMarker', marker)
+        return
+    end
+
     if marker.coords == nil then
         print('Needs Coords for marker')
         return
@@ -46,6 +52,22 @@ AddEventHandler('disc-base:registerMarker', function(marker)
         markers[getOrElse(marker.name, #markers + 1)] = marker
     end
 
+end)
+
+RegisterNetEvent('disc-base:updateMarker')
+AddEventHandler('disc-base:updateMarker', function(marker)
+    if marker.coords then
+        markers[marker.name].coords = marker.coords
+    end
+
+    if marker.shouldDraw then
+        markers[marker.name].shouldDraw = marker.shouldDraw
+    end
+end)
+
+RegisterNetEvent('disc-base:deleteMarker')
+AddEventHandler('disc-base:deleteMarker', function(name)
+    markers[name] = nil
 end)
 
 Citizen.CreateThread(function()
