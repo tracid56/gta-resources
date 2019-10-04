@@ -57,7 +57,17 @@ function RunRepair(marker)
             exports['mythic_notify']:DoHudText('error', 'You already have a Vehicle Repairing here!')
             return
         else
-            StartRepair(place)
+            local engineprice = Config.EnginePricePerHP * (1000 - math.max(GetVehicleEngineHealth(veh), 0))
+            local bodyprice = Config.BodyPricePerHP * (1000 - math.max(GetVehicleBodyHealth(veh), 0))
+            local price = math.ceil(engineprice + bodyprice)
+            ESX.TriggerServerCallback('disc-autorepair:takeMoney', function(took)
+                if took then
+                    StartRepair(place)
+                    exports['mythic_notify']:DoHudText('success', 'Starting Vehicle Repair for $' .. price .. '!')
+                else
+                    exports['mythic_notify']:DoHudText('error', 'No funds! You need $' .. price .. '!')
+                end
+            end, price)
         end
     end, place)
 end
@@ -116,15 +126,6 @@ end
 RegisterNetEvent('disc-autorepair:kickPed')
 AddEventHandler('disc-autorepair:kickPed', function()
     TaskLeaveAnyVehicle(GetPlayerPed(-1))
-end)
-
-RegisterNetEvent('disc-autorepair:setVehicleInRepair')
-AddEventHandler('disc-autorepair:setVehicleInRepair', function(veh)
-    local engineprice = Config.EnginePricePerHP * (1000 - math.max(GetVehicleEngineHealth(veh), 0))
-    local bodyprice = Config.BodyPricePerHP * (1000 - math.max(GetVehicleBodyHealth(veh), 0))
-    local price = math.ceil(engineprice + bodyprice)
-    exports['mythic_notify']:DoHudText('success', 'Starting Vehicle Repair for $' .. price .. '!')
-    TriggerServerEvent('disc-autorepair:takeMoney', price)
 end)
 
 RegisterNetEvent('disc-autorepair:setVehicleRepairStage')

@@ -59,7 +59,7 @@ Citizen.CreateThread(function()
             end,
             property = property,
             shouldDraw = function()
-                return IsPropertySold(property) and IsUnlocked(property)
+                return IsPropertySold(property) and DoesPlayerHaveKeysOf(property)
             end
         }
         TriggerEvent('disc-base:registerMarker', marker)
@@ -249,6 +249,9 @@ end
 
 function IsPropertySold(property)
     local pd = GetPropertyDataForProperty(property)
+    if pd == nil then
+        return
+    end
     if pd then
         return pd.sold
     else

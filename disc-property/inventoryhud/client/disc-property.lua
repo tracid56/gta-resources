@@ -14,6 +14,7 @@ AddEventHandler(
 RegisterNetEvent("esx_inventoryhud:refreshDiscPropertyInventory")
 AddEventHandler("esx_inventoryhud:refreshDiscPropertyInventory", function()
     refreshPropertyInventory()
+    Citizen.Wait(200)
     loadPlayerInventory()
 end)
 

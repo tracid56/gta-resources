@@ -8,7 +8,7 @@ Config.Teleporters = {
         heading = 245.0,
         colour = { r = 255, g = 0, b = 0 },
         allowVehicles = true,
-        job = 'all'
+        job = 'police',
     },
     {
         name = 'Test Teleport 2',
@@ -17,6 +17,10 @@ Config.Teleporters = {
         heading = 245.0,
         colour = { r = 255, g = 0, b = 0 },
         allowVehicles = true,
-        job = 'all'
+        job = 'all',
+        grades = {
+            'recruit',
+            'officer'
+        }
     }
 }

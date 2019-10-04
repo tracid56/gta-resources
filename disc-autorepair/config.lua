@@ -4,6 +4,9 @@ Config.EnginePricePerHP = 5
 Config.BodyPricePerHP = 2
 Config.StageTime = 10000
 
+Config.AllowBank = true
+Config.AllowNegativeBank = false
+
 Config.VehicleRepair = {
     {
         name = 'Vehicle Repair',

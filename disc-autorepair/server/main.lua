@@ -43,7 +43,6 @@ AddEventHandler('disc-autorepair:startCarRepair', function(veh, place)
         return
     end
     SetVehicleAtPlaceForSource(place, source, veh)
-    TriggerClientEvent('disc-autorepair:setVehicleInRepair', player.source, veh)
     Citizen.CreateThread(function()
         for i = 0, 7, 1 do
             Citizen.Wait(Config.StageTime)
@@ -55,10 +54,21 @@ AddEventHandler('disc-autorepair:startCarRepair', function(veh, place)
     end)
 end)
 
-RegisterServerEvent('disc-autorepair:takeMoney')
-AddEventHandler('disc-autorepair:takeMoney', function(price)
+ESX.RegisterServerCallback('disc-autorepair:takeMoney', function(source, cb, price)
     local player = ESX.GetPlayerFromId(source)
-    player.removeMoney(price)
+    if player.getMoney() >= price then
+        player.removeMoney(price)
+        cb(true)
+    elseif Config.AllowBank then
+        if player.getBank() >= price or Config.AllowNegativeBank then
+            player.removeAccountMoney('bank', price)
+            cb(true)
+        else
+            cb(false)
+        end
+    else
+        cb(false)
+    end
 end)
 
 function GetVehicleAtPlaceForSource(place, source)

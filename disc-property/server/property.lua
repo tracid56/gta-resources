@@ -48,7 +48,7 @@ ESX.RegisterServerCallback('disc-property:searchUsers', function(source, cb, val
             [[SELECT *
                 FROM users u
                 JOIN disc_property_owners o on u.identifier = o.identifier
-                WHERE (LOWER(u.firstname) = LOWER(@value) OR LOWER(u.lastname) = LOWER(@value)) and o.owner = 0]] , {
+                WHERE (LOWER(u.firstname) = LOWER(@value) OR LOWER(u.lastname) = LOWER(@value)) and o.owner = 0]], {
                 ['@value'] = value
             },
             function(results)
