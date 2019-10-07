@@ -1,6 +1,8 @@
 # Description
 
-Display social media information using commands
+Add a taxing mechanic
+
+Runs tax every day at TaxTime and deducts based on bracket
 
 # Installation
 Add to resource folder `[esx]` or `[disc]`

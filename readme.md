@@ -92,4 +92,4 @@ Feel free to use my [Base](https://github.com/DiscworldZA/gta-resources/tree/mas
 Message me on Discord. I will help you out.
 
 # Discord
-- DiscworldZA#5430
+- https://discord.gg/S2SckF6
